@@ -1,0 +1,169 @@
+/* ===== Global ===== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(180deg, #f8f9fb, #eef1f6);
+  color: #222;
+  scroll-behavior: smooth;
+}
+
+/* ===== Header ===== */
+.header {
+  width: 100%;
+  padding: 80px 20px 60px;
+  text-align: center;
+  background: radial-gradient(circle at top, #1f1f1f, #0b0b0b);
+  color: #fff;
+  animation: fadeDown 1s ease;
+}
+
+.header h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+
+.header p {
+  font-size: 1.2rem;
+  opacity: 0.85;
+  margin-bottom: 25px;
+}
+
+.header nav a {
+  margin: 0 14px;
+  color: #fff;
+  font-weight: 500;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.header nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0;
+  height: 2px;
+  background: #00d4ff;
+  transition: width 0.3s ease;
+}
+
+.header nav a:hover {
+  color: #00d4ff;
+}
+
+.header nav a:hover::after {
+  width: 100%;
+}
+
+/* ===== Sections ===== */
+.section {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+  padding: 80px 20px;
+  animation: fadeUp 0.8s ease;
+}
+
+.section h2 {
+  font-size: 2.2rem;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.section h2::after {
+  content: "";
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, #00d4ff, #007bff);
+  display: block;
+  margin-top: 10px;
+  border-radius: 4px;
+}
+
+/* ===== Skills & Projects ===== */
+.skills-grid,
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+/* ===== Cards ===== */
+.card {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, #00d4ff, #007bff);
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 45px rgba(0,0,0,0.15);
+}
+
+.card h3 {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+/* ===== Footer ===== */
+.footer {
+  background: #0b0b0b;
+  color: #aaa;
+  text-align: center;
+  padding: 25px 15px;
+  font-size: 0.9rem;
+}
+
+/* ===== Animations ===== */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .header h1 {
+    font-size: 2.2rem;
+  }
+
+  .section {
+    padding: 60px 15px;
+  }
+}
