@@ -1,42 +1,107 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
 
+// --- 1. SNAKE STYLE MOUSE TRAIL (CHAINED) ---
+const MouseTrail = () => {
+  // 1. Mouse ki exact position track karne ke liye
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  // 2. Physics Configuration (Snappy movement)
+  // Damping: Jitna zyada, utna kam oscillation (hilna-dulna)
+  // Stiffness: Jitna zyada, utna tez reaction
+  const springConfig = { damping: 20, stiffness: 300, mass: 0.5 };
+
+  // 3. SPRING CHAINING (The Magic)
+  // Dot 1 follows Mouse directly
+  const x1 = useSpring(mouseX, { ...springConfig, damping: 25, stiffness: 400 });
+  const y1 = useSpring(mouseY, { ...springConfig, damping: 25, stiffness: 400 });
+
+  // Dot 2 follows Dot 1 (Not Mouse) -> Isse sequence banta hai
+  const x2 = useSpring(x1, { ...springConfig, damping: 30, stiffness: 200 });
+  const y2 = useSpring(y1, { ...springConfig, damping: 30, stiffness: 200 });
+
+  // Dot 3 follows Dot 2
+  const x3 = useSpring(x2, { ...springConfig, damping: 40, stiffness: 150 });
+  const y3 = useSpring(y2, { ...springConfig, damping: 40, stiffness: 150 });
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [mouseX, mouseY]);
+
+  // Common styles
+  const dotBase = "fixed top-0 left-0 rounded-full pointer-events-none z-50 mix-blend-difference bg-white";
+
+  return (
+    <>
+      {/* Dot 1 (Head) - Thoda bada */}
+      <motion.div 
+        style={{ x: x1, y: y1, translateX: "-50%", translateY: "-50%" }} 
+        className={`${dotBase} w-4 h-4 opacity-100`} 
+      />
+      
+      {/* Dot 2 (Body) - Medium */}
+      <motion.div 
+        style={{ x: x2, y: y2, translateX: "-50%", translateY: "-50%" }} 
+        className={`${dotBase} w-3 h-3 opacity-80`} 
+      />
+      
+      {/* Dot 3 (Tail) - Chhota */}
+      <motion.div 
+        style={{ x: x3, y: y3, translateX: "-50%", translateY: "-50%" }} 
+        className={`${dotBase} w-2 h-2 opacity-60`} 
+      />
+    </>
+  );
+};
+
+// --- 2. TYPEWRITER COMPONENT ---
+const TypewriterEffect = ({ text, speed = 50 }) => {
+  const [displayedText, setDisplayedText] = useState('');
+
+  useEffect(() => {
+    let index = 0;
+    const intervalId = setInterval(() => {
+      setDisplayedText((prev) => prev + text.charAt(index));
+      index++;
+      if (index === text.length) {
+        clearInterval(intervalId);
+      }
+    }, speed);
+    return () => clearInterval(intervalId);
+  }, [text, speed]);
+
+  return (
+    <span className="font-mono text-green-400">
+      <span className="text-blue-400 mr-2">root@server:~$</span>
+      {displayedText}
+      <span className="animate-pulse inline-block w-2 h-5 bg-green-400 align-middle ml-1"></span>
+    </span>
+  );
+};
+
+// --- MAIN COMPONENT ---
 const Contact = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submissionStatus, setSubmissionStatus] = useState(null); // 'success', 'error'
-  const [copied, setCopied] = useState(false);
-
-  // --- CONFIG ---
-  const contactInfo = {
-    email: "yourname@gmail.com",
-    github: "https://github.com/yourusername",
-    linkedin: "https://linkedin.com/in/yourprofile",
-    location: "Ahmedabad, Gujarat"
-  };
-
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText(contactInfo.email);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  const [showModal, setShowModal] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setSubmissionStatus(null);
 
-    // --- WEB3FORMS SUBMISSION LOGIC ---
     try {
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
-          // REPLACE THIS WITH YOUR ACTUAL ACCESS KEY FROM WEB3FORMS
-          access_key: "1e6d8509-6b4d-4dc7-bf46-efa9b42714d3", 
+          access_key: "1e6d8509-6b4d-4dc7-bf46-efa9b42714d3", // YOUR KEY
           name: formData.name,
           email: formData.email,
           message: formData.message,
@@ -46,240 +111,121 @@ const Contact = () => {
       const result = await response.json();
 
       if (result.success) {
-        setSubmissionStatus("success");
-        setFormData({ name: '', email: '', message: '' }); // Reset form
-      } else {
-        setSubmissionStatus("error");
-        console.error("Form Error:", result);
+        setShowModal(true);
+        setFormData({ name: '', email: '', message: '' });
+        setTimeout(() => setShowModal(false), 6000);
       }
     } catch (error) {
-      setSubmissionStatus("error");
-      console.error("Network Error:", error);
+      console.error(error);
     } finally {
       setIsSubmitting(false);
-      // Clear success message after 5 seconds
-      setTimeout(() => setSubmissionStatus(null), 5000);
     }
   };
 
-  return (
-    <section id="contact" className="py-24 bg-[#0f0f0f] text-gray-300 relative overflow-hidden">
-      
-      {/* Animated Background Grid */}
-      <div className="absolute inset-0 opacity-[0.03]" 
-           style={{ 
-             backgroundImage: 'linear-gradient(#4f46e5 1px, transparent 1px), linear-gradient(to right, #4f46e5 1px, transparent 1px)', 
-             backgroundSize: '30px 30px' 
-           }}>
-      </div>
-      
-      {/* Glowing Orbs */}
-      <div className="absolute -top-24 -left-24 w-96 h-96 bg-indigo-600/20 rounded-full blur-[100px] pointer-events-none animate-pulse"></div>
-      <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-purple-600/20 rounded-full blur-[100px] pointer-events-none animate-pulse"></div>
+  const inputVariants = {
+    focus: { scale: 1.01, borderColor: "#818cf8", boxShadow: "0px 0px 10px rgba(129, 140, 248, 0.2)", transition: { type: "spring", stiffness: 300 } },
+    blur: { scale: 1, borderColor: "#374151", boxShadow: "none" }
+  };
 
-      <div className="max-w-6xl mx-auto px-6 relative z-10">
-        
-        {/* Header Animation */}
+  const modalVariants = {
+    hidden: { opacity: 0, scale: 0.9 },
+    visible: { opacity: 1, scale: 1, transition: { duration: 0.3 } },
+    exit: { opacity: 0, scale: 0.9, transition: { duration: 0.2 } }
+  };
+
+  return (
+    <section id="contact" className="py-24 bg-[#0f0f0f] text-gray-300 relative overflow-hidden min-h-screen flex items-center">
+      
+      {/* --- SNAKE TRAIL ADDED HERE --- */}
+      <MouseTrail />
+
+      {/* Background Ambience */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(79,70,229,0.08),transparent_70%)]"></div>
+      
+      {/* Moving Grid Background */}
+      <div className="absolute inset-0 opacity-[0.03]" 
+           style={{ backgroundImage: 'linear-gradient(#4f46e5 1px, transparent 1px), linear-gradient(to right, #4f46e5 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
+      </div>
+
+      <div className="max-w-4xl mx-auto px-6 relative z-10 w-full">
         <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }}
+          className="text-center mb-12"
         >
-          <h2 className="text-4xl font-bold text-white mb-4">
-            Initialize <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">Connection</span>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            Let's <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Collaborate</span>
           </h2>
-          <p className="text-gray-400">
-            Have a project in mind? Let's compile some ideas together.
-          </p>
+          <p className="text-gray-400 text-lg">Have a project in mind? Send me a message and let's build something amazing.</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
-          
-          {/* LEFT SIDE: Contact Info (Slide In Left) */}
-          <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="space-y-8"
-          >
-            
-            <div className="bg-[#1a1a1a] border border-gray-800 rounded-xl p-6 relative group hover:border-indigo-500/50 transition-colors shadow-2xl">
-               <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl opacity-0 group-hover:opacity-20 transition duration-500 blur"></div>
-               <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                 <span className="text-indigo-400">./</span>contact_info
-               </h3>
-               
-               <div className="space-y-4 font-mono text-sm">
-                 
-                 {/* Email Item */}
-                 <div className="flex flex-col">
-                   <span className="text-gray-500 mb-1">// Click to copy</span>
-                   <div className="flex items-center gap-3 bg-[#111] p-3 rounded border border-gray-800 hover:border-gray-600 transition-colors">
-                     <svg className="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                     <span className="flex-1 text-gray-300 truncate">{contactInfo.email}</span>
-                     <button 
-                       onClick={handleCopyEmail}
-                       className="p-2 hover:bg-gray-700 rounded transition-colors relative"
-                       title="Copy Email"
-                     >
-                       {copied ? (
-                         <motion.span 
-                           initial={{ scale: 0 }} 
-                           animate={{ scale: 1 }} 
-                           className="text-green-400 font-bold text-xs"
-                         >
-                           COPIED!
-                         </motion.span>
-                       ) : (
-                         <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
-                       )}
-                     </button>
-                   </div>
-                 </div>
+        {/* --- MAIN FORM --- */}
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} viewport={{ once: true }}
+          className="bg-[#1a1a1a]/60 backdrop-blur-2xl p-8 md:p-12 rounded-3xl border border-gray-800 shadow-[0_0_50px_rgba(0,0,0,0.5)] relative overflow-hidden"
+        >
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
 
-                 {/* Social Links */}
-                 <div className="grid grid-cols-2 gap-4 pt-2">
-                   <a href={contactInfo.github} target="_blank" rel="noreferrer" className="flex items-center gap-3 bg-[#111] p-3 rounded border border-gray-800 hover:border-indigo-500/50 hover:text-white transition-all group/link">
-                     <svg className="w-5 h-5 text-gray-400 group-hover/link:text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                     <span>GitHub</span>
-                   </a>
-                   <a href={contactInfo.linkedin} target="_blank" rel="noreferrer" className="flex items-center gap-3 bg-[#111] p-3 rounded border border-gray-800 hover:border-indigo-500/50 hover:text-white transition-all group/link">
-                     <svg className="w-5 h-5 text-gray-400 group-hover/link:text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                     <span>LinkedIn</span>
-                   </a>
-                 </div>
-
-                 {/* Location */}
-                 <div className="flex items-center gap-3 text-gray-400 pt-2">
-                   <svg className="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                   <span>{contactInfo.location}</span>
-                 </div>
-               </div>
-            </div>
-
-            {/* Terminal Footer */}
-            <div className="hidden md:block font-mono text-xs text-gray-500">
-               <p><span className="text-green-500">user@portfolio</span>:<span className="text-blue-500">~/contact</span>$ echo "Let's work together"</p>
-               <p className="text-gray-400 mt-1">Let's work together</p>
-               <p className="mt-1"><span className="text-green-500">user@portfolio</span>:<span className="text-blue-500">~/contact</span><span className="animate-pulse">_</span></p>
-            </div>
-
-          </motion.div>
-
-          {/* RIGHT SIDE: The Form (Slide In Right) */}
-          <motion.div 
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            viewport={{ once: true }}
-            className="bg-[#1a1a1a] p-8 rounded-xl border border-gray-800 relative z-10 shadow-2xl"
-          >
-            <h3 className="text-2xl font-bold text-white mb-6">Send Message</h3>
-            
-            {/* SUCCESS BANNER */}
-            {submissionStatus === 'success' && (
-              <motion.div 
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mb-6 p-4 bg-green-900/30 border border-green-500/50 rounded-lg flex items-center gap-3 text-green-400"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                <span>Message sent successfully! I'll get back to you soon.</span>
-              </motion.div>
-            )}
-
-            {/* ERROR BANNER */}
-            {submissionStatus === 'error' && (
-              <motion.div 
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mb-6 p-4 bg-red-900/30 border border-red-500/50 rounded-lg flex items-center gap-3 text-red-400"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                <span>Something went wrong. Please try again later.</span>
-              </motion.div>
-            )}
-
-            <form onSubmit={handleSubmit} className="space-y-6">
-              
-              {/* Name Input */}
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">
-                  <span className="text-indigo-400">var</span> Name =
-                </label>
-                <input 
-                  type="text" 
-                  id="name"
-                  required
-                  value={formData.name}
-                  onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  className="w-full bg-[#111] border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors font-mono"
-                  placeholder='"Your Name"'
+          <form onSubmit={handleSubmit} className="space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-2 group">
+                <label className="text-sm font-medium text-gray-400 group-hover:text-indigo-400 transition-colors">Name</label>
+                <motion.input 
+                  variants={inputVariants} whileFocus="focus" initial="blur"
+                  type="text" required value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  className="w-full bg-[#111] border border-gray-700 rounded-xl px-5 py-4 text-white outline-none placeholder:text-gray-600 font-medium"
+                  placeholder="John Doe"
                 />
               </div>
-
-              {/* Email Input */}
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-400 mb-2">
-                  <span className="text-indigo-400">var</span> Email =
-                </label>
-                <input 
-                  type="email" 
-                  id="email"
-                  required
-                  value={formData.email}
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
-                  className="w-full bg-[#111] border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors font-mono"
-                  placeholder='"your@email.com"'
+              <div className="space-y-2 group">
+                <label className="text-sm font-medium text-gray-400 group-hover:text-indigo-400 transition-colors">Email</label>
+                <motion.input 
+                  variants={inputVariants} whileFocus="focus" initial="blur"
+                  type="email" required value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  className="w-full bg-[#111] border border-gray-700 rounded-xl px-5 py-4 text-white outline-none placeholder:text-gray-600 font-medium"
+                  placeholder="john@example.com"
                 />
               </div>
-
-              {/* Message Input */}
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-400 mb-2">
-                  <span className="text-indigo-400">const</span> Message =
-                </label>
-                <textarea 
-                  id="message"
-                  required
-                  rows="4"
-                  value={formData.message}
-                  onChange={(e) => setFormData({...formData, message: e.target.value})}
-                  className="w-full bg-[#111] border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors font-mono resize-none"
-                  placeholder='`I have a project idea...`'
-                ></textarea>
-              </div>
-
-              {/* Submit Button */}
-              <button 
-                type="submit" 
-                disabled={isSubmitting}
-                className="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg text-white font-bold text-lg hover:shadow-[0_0_20px_rgba(79,70,229,0.4)] transform hover:-translate-y-1 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-              >
-                {isSubmitting ? (
-                  <>
-                    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Sending...
-                  </>
-                ) : (
-                  <>
-                    <span>Execute Send()</span>
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
-                  </>
-                )}
-              </button>
-
-            </form>
-          </motion.div>
-
-        </div>
+            </div>
+            <div className="space-y-2 group">
+              <label className="text-sm font-medium text-gray-400 group-hover:text-indigo-400 transition-colors">Message</label>
+              <motion.textarea 
+                variants={inputVariants} whileFocus="focus" initial="blur"
+                required rows="6" value={formData.message} onChange={(e) => setFormData({...formData, message: e.target.value})}
+                className="w-full bg-[#111] border border-gray-700 rounded-xl px-5 py-4 text-white outline-none resize-none placeholder:text-gray-600 font-medium"
+                placeholder="Tell me about your project..."
+              ></motion.textarea>
+            </div>
+            <motion.button 
+              type="submit" disabled={isSubmitting} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+              className="w-full py-5 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl text-white font-bold text-lg shadow-lg flex items-center justify-center gap-3"
+            >
+              {isSubmitting ? (<span>Sending...</span>) : (<span>Send Message</span>)}
+            </motion.button>
+          </form>
+        </motion.div>
       </div>
+
+      {/* --- TERMINAL MODAL --- */}
+      <AnimatePresence>
+        {showModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setShowModal(false)}></motion.div>
+            <motion.div variants={modalVariants} initial="hidden" animate="visible" exit="exit" className="relative bg-[#1e1e1e] border border-gray-600 rounded-lg shadow-2xl w-full max-w-lg overflow-hidden z-10 font-mono">
+              <div className="bg-[#2d2d2d] px-4 py-2 flex items-center gap-2 border-b border-gray-600">
+                <div onClick={() => setShowModal(false)} className="w-3 h-3 rounded-full bg-red-500 cursor-pointer"></div>
+                <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                <div className="ml-4 text-xs text-gray-400">bash — 80x24</div>
+              </div>
+              <div className="p-6 h-32 flex items-start">
+                 <TypewriterEffect text="Successfully sent message. We will reach out to you soon..." />
+              </div>
+              <motion.div initial={{ width: "100%" }} animate={{ width: "0%" }} transition={{ duration: 6, ease: "linear" }} className="h-1 bg-green-500/50" />
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
     </section>
   );
 };
