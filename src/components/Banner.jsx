@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValue, useAnimationFrame } from 'framer-motion';
 
+// 👇 IMPORTANT: Resume file ko yahan import karein
+import myResume from '../assets/resume.pdf';
+
 const Banner = () => {
   const [text, setText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
@@ -23,14 +26,11 @@ const Banner = () => {
   const roles = ["Laravel Full Stack Developer", "Backend Developer", "React Developer", "Python Developer", "Problem Solver"];
 
   // --- ORBIT DATA ---
-  // direction: 1 = clockwise, -1 = counter-clockwise
   const orbitData = [
     { icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg", color: "cyan", radius: 340, duration: 25, tilt: 0.35, startAngle: 0, direction: 1 },
     { icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg", color: "red", radius: 340, duration: 25, tilt: 0.35, startAngle: 180, direction: 1 }, 
-    
     { icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg", color: "yellow", radius: 420, duration: 30, tilt: 0.45, startAngle: 90, direction: -1 },
     { icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg", color: "indigo", radius: 420, duration: 30, tilt: 0.45, startAngle: 270, direction: -1 },
-
     { icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg", color: "blue", radius: 500, duration: 35, tilt: 0.3, startAngle: 45, direction: 1 },
   ];
 
@@ -94,9 +94,27 @@ const Banner = () => {
             I build scalable web applications with clean code and modern technologies. Transforming complex problems into elegant digital solutions.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 pt-6 justify-center lg:justify-start">
-            <a href="#projects" className="px-8 py-3 bg-indigo-600 rounded-lg font-medium text-white shadow-lg hover:scale-105 transition-all">View My Work</a>
-            <a href="#contact" className="px-8 py-3 bg-[#1a1a1a] border border-gray-700 rounded-lg font-medium text-gray-300 hover:text-white transition-all">Contact Me</a>
+          <div className="flex flex-col sm:flex-row gap-4 pt-6 justify-center lg:justify-start items-center">
+            <a href="#projects" className="w-full sm:w-auto px-8 py-3 bg-indigo-600 rounded-lg font-medium text-white shadow-lg hover:scale-105 transition-all text-center">
+                View My Work
+            </a>
+            <a href="#contact" className="w-full sm:w-auto px-8 py-3 bg-[#1a1a1a] border border-gray-700 rounded-lg font-medium text-gray-300 hover:text-white transition-all text-center">
+                Contact Me
+            </a>
+            
+            {/* --- RESUME BUTTON (FIXED) --- */}
+            <a 
+              href={myResume} // Imported Variable use kiya hai
+              download="Mohammed_Armaan_Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-lg font-medium text-purple-300 hover:bg-purple-500/20 hover:text-white transition-all flex items-center justify-center gap-2"
+            >
+              <span>Resume</span>
+              <svg className="w-4 h-4 group-hover:translate-y-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+            </a>
           </div>
         </motion.div>
 
@@ -104,7 +122,6 @@ const Banner = () => {
         <div className="relative hidden lg:flex items-center justify-center h-[700px] perspective-1000" style={{ transformStyle: 'preserve-3d' }}>
             
             {/* 1. CENTRAL CARD */}
-            {/* Kept floating animation but managed Z-depth better */}
             <motion.div 
               style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
               animate={{ y: [0, -15, 0] }}
@@ -127,7 +144,7 @@ const Banner = () => {
                 <div className="absolute -inset-10 bg-gradient-to-tr from-indigo-600/20 to-purple-600/20 blur-3xl -z-10 rounded-full opacity-40"></div>
             </motion.div>
 
-            {/* 2. ORBITING ICONS WITH PORTAL ANIMATION */}
+            {/* 2. ORBITING ICONS */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
                {orbitData.map((item, index) => (
                  <OrbitingIcon key={index} {...item} />
@@ -137,7 +154,8 @@ const Banner = () => {
 
       </div>
 
-      <style jsx>{`
+      {/* Standard CSS Styles */}
+      <style>{`
         .perspective-1000 { perspective: 1000px; }
         .animate-blink { animation: blink 1s step-end infinite; }
         @keyframes blink { 50% { opacity: 0; } }
@@ -148,39 +166,23 @@ const Banner = () => {
   );
 };
 
-// --- ORBITING ICON WITH "PORTAL" EFFECT ---
+// --- ORBITING ICON COMPONENT ---
 const OrbitingIcon = ({ icon, color, radius, duration, tilt, startAngle, direction = 1 }) => {
   const time = useMotionValue(0);
+  useAnimationFrame((t, delta) => { time.set(time.get() + (delta / 1000)); });
 
-  // Smooth time loop
-  useAnimationFrame((t, delta) => {
-    time.set(time.get() + (delta / 1000));
-  });
-
-  // Calculate Angle continuously
   const angleDeg = useTransform(time, (t) => {
     const progressed = (t / duration) % 1;
     return (progressed * 360 * direction + startAngle + 360) % 360;
   });
 
-  // Z-Index: 0 (Back) vs 20 (Front)
   const zIndex = useTransform(angleDeg, (deg) => (deg < 180 ? 20 : 0));
-
-  // Opacity "Portal" Effect:
-  // Fade out slightly when passing behind the card (near 180 and 360/0 degrees transition points)
-  // This simulates entering/exiting the "portal" behind the card.
   const opacity = useTransform(angleDeg, [0, 10, 170, 180, 190, 350, 360], [1, 1, 0.5, 0.3, 0.5, 1, 1]);
-
-  // Scale Effect:
-  // Scale up when in front (90deg), scale down when behind (270deg)
-  // Extra scale dip when transitioning Z-index to avoid clipping
   const scale = useTransform(angleDeg, (deg) => {
     const rad = (deg * Math.PI) / 180;
-    const depthScale = 0.9 + 0.3 * Math.sin(rad); // Base 3D scale
-    return depthScale;
+    return 0.9 + 0.3 * Math.sin(rad);
   });
 
-  // Position Transform
   const transform = useTransform(angleDeg, (deg) => {
     const rad = (deg * Math.PI) / 180;
     const x = radius * Math.cos(rad);
@@ -191,12 +193,7 @@ const OrbitingIcon = ({ icon, color, radius, duration, tilt, startAngle, directi
   return (
     <motion.div
       className={`absolute top-0 left-0 w-16 h-16 bg-[#0f0f0f]/80 backdrop-blur-sm rounded-full border border-${color}-500/50 p-3 shadow-2xl shadow-${color}-500/40 flex items-center justify-center`}
-      style={{
-        transform,
-        scale,
-        zIndex,
-        opacity, // Apply portal fade
-      }}
+      style={{ transform, scale, zIndex, opacity }}
     >
       <img src={icon} alt="tech icon" className="w-full h-full object-contain drop-shadow-lg" />
     </motion.div>
