@@ -1,0 +1,95 @@
+/* Google Fonts import for a modern look */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 3rem;
+  z-index: 1000;
+  transition: all 0.3s ease-in-out;
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box; /* Ensures padding doesn't break width */
+}
+
+/* Glassmorphism effect when scrolled */
+.header.scrolled {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  padding: 1rem 3rem;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.logo-container h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.badge {
+  font-size: 0.75rem;
+  background: #e0e7ff;
+  color: #4f46e5;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-left: 10px;
+  font-weight: 600;
+  vertical-align: middle;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #555;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+/* Underline animation on hover */
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: #4f46e5;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #4f46e5;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Call to Action Button styling */
+.nav-btn {
+  text-decoration: none;
+  background: #4f46e5;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 50px;
+  font-weight: 500;
+  transition: transform 0.2s, background 0.3s;
+}
+
+.nav-btn:hover {
+  background: #4338ca;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
