@@ -29,7 +29,8 @@ const Projects = () => {
       description: "A comprehensive platform connecting employers and job seekers. Features include resume parsing, job posting management, and admin moderation tools.",
       tech: ["Laravel", "React", "MySQL"],
       role: "Full Stack",
-      liveUrl: "https://metrotraders.co.in/", 
+      liveUrl: "https://panji-savera.vercel.app/", 
+      livecode: "https://github.com/MohammedArmaaan/Panji-Tea",
       stars: 12,
       forks: 4
     },
@@ -40,6 +41,7 @@ const Projects = () => {
       tech: ["Laravel", "Bootstrap", "MySQL"],
       role: "Backend Lead",
       liveUrl: "https://mohammedarmaaan.github.io/Portfolio/", 
+      livecode: "https://github.com/MohammedArmaaan/Portfolio-React",
       stars: 8,
       forks: 2
     },
@@ -50,6 +52,7 @@ const Projects = () => {
       tech: ["PHP", "MySQL", "HTML/CSS"],
       role: "Solo Dev",
       liveUrl: "https://snmtc.in/majlis", 
+      livecode: "https://github.com/MohammedArmaaan/Subscription-Based-Pannel",
       stars: 5,
       forks: 1
     }
