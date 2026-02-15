@@ -58,7 +58,7 @@ const Projects = () => {
   const getIframeWidth = () => {
     switch(deviceView) {
       case 'mobile': return 'max-w-[375px]';
-      case 'tablet': return 'max-w-[768px]';
+      // case 'tablet': return 'max-w-[768px]';
       default: return 'max-w-full';
     }
   };
@@ -147,7 +147,7 @@ const Projects = () => {
                 {/* Device Switcher */}
                 <div className="hidden md:flex bg-[#1a1a1a] rounded-lg p-1 border border-gray-700">
                    <button onClick={() => setDeviceView('desktop')} className={`p-2 rounded ${deviceView === 'desktop' ? 'bg-gray-700 text-white' : 'text-gray-500 hover:text-gray-300'}`}><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg></button>
-                   <button onClick={() => setDeviceView('tablet')} className={`p-2 rounded ${deviceView === 'tablet' ? 'bg-gray-700 text-white' : 'text-gray-500 hover:text-gray-300'}`}><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg></button>
+                   {/* <button onClick={() => setDeviceView('tablet')} className={`p-2 rounded ${deviceView === 'tablet' ? 'bg-gray-700 text-white' : 'text-gray-500 hover:text-gray-300'}`}><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg></button> */}
                    <button onClick={() => setDeviceView('mobile')} className={`p-2 rounded ${deviceView === 'mobile' ? 'bg-gray-700 text-white' : 'text-gray-500 hover:text-gray-300'}`}><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg></button>
                 </div>
 
