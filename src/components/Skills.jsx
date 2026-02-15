@@ -6,7 +6,7 @@ const SkillsTerminal = () => {
 
   // --- ICONS (Using Official DevIcon URLs for 100% Accuracy) ---
   const Icons = {
-    Folder: ({ className }) => <svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
+    Folder: ({ className }) => <svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" /></svg>
   };
 
   const skillCategories = {
@@ -74,88 +74,88 @@ const SkillsTerminal = () => {
 }`,
         output: (
           <div className="flex justify-center items-center h-full">
-             <button className="px-4 py-2 bg-indigo-500 text-white rounded shadow hover:bg-indigo-600 transition-colors text-xs">
-               Tailwind Styled
-             </button>
+            <button className="px-4 py-2 bg-indigo-500 text-white rounded shadow hover:bg-indigo-600 transition-colors text-xs">
+              Tailwind Styled
+            </button>
           </div>
         )
       }
     },
     Backend: {
-  "Laravel": {
-    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg",
-    file: "api.php",
-    code: `Route::<span class="text-blue-300">get</span>(<span class="text-green-300">'/user'</span>, <span class="text-blue-400">function</span> () {
+      "Laravel": {
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg",
+        file: "api.php",
+        code: `Route::<span class="text-blue-300">get</span>(<span class="text-green-300">'/user'</span>, <span class="text-blue-400">function</span> () {
     <span class="text-pink-400">return</span> response()-><span class="text-blue-300">json</span>([
        <span class="text-green-300">'name'</span> => <span class="text-green-300">'Armaan'</span>,
        <span class="text-green-300">'role'</span> => <span class="text-green-300">'Developer'</span>
     ]);
 });`,
-    output: (
-      <div className="font-mono text-sm space-y-1 p-2">
-        <div className="text-white">php artisan serve</div>
-        <div className="text-gray-400">Starting Laravel development server...</div>
-        <div className="text-green-400">Server is running on [http://127.0.0.1:8000]</div>
-        <div className="text-gray-500 mt-2">// GET /api/user Response:</div>
-        <div className="text-green-400">
-          <div>{'{'}</div>
-          <div className="pl-4">"name": "Armaan",</div>
-          <div className="pl-4">"role": "Developer",</div>
-          <div className="pl-4">"status": 200</div>
-          <div>{'}'}</div>
-        </div>
-      </div>
-    )
-  },
-  "Python": {
-    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
-    file: "main.py",
-    code: `<span class="text-pink-400">from</span> fastapi <span class="text-pink-400">import</span> FastAPI
+        output: (
+          <div className="font-mono text-sm space-y-1 p-2">
+            <div className="text-white">php artisan serve</div>
+            <div className="text-gray-400">Starting Laravel development server...</div>
+            <div className="text-green-400">Server is running on [http://127.0.0.1:8000]</div>
+            <div className="text-gray-500 mt-2">// GET /api/user Response:</div>
+            <div className="text-green-400">
+              <div>{'{'}</div>
+              <div className="pl-4">"name": "Armaan",</div>
+              <div className="pl-4">"role": "Developer",</div>
+              <div className="pl-4">"status": 200</div>
+              <div>{'}'}</div>
+            </div>
+          </div>
+        )
+      },
+      "Python": {
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
+        file: "main.py",
+        code: `<span class="text-pink-400">from</span> fastapi <span class="text-pink-400">import</span> FastAPI
 
 app = <span class="text-blue-300">FastAPI</span>()
 
 <span class="text-blue-400">@app.get</span>(<span class="text-green-300">"/"</span>)
 <span class="text-blue-400">def</span> <span class="text-blue-300">read_root</span>():
     <span class="text-pink-400">return</span> {<span class="text-green-300">"status"</span>: <span class="text-green-300">"Python API Active"</span>}`,
-    output: (
-      <div className="font-mono text-sm space-y-1 p-2">
-        <div className="text-white">uvicorn main:app --reload</div>
-        <div className="text-gray-400">INFO: Will watch for changes...</div>
-        <div className="text-green-400">Application startup complete.</div>
-      </div>
-    )
-  },
-  "Java": {
-    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
-    file: "UserController.java",
-    code: `<span class="text-blue-400">@RestController</span>
+        output: (
+          <div className="font-mono text-sm space-y-1 p-2">
+            <div className="text-white">uvicorn main:app --reload</div>
+            <div className="text-gray-400">INFO: Will watch for changes...</div>
+            <div className="text-green-400">Application startup complete.</div>
+          </div>
+        )
+      },
+      "Java": {
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
+        file: "UserController.java",
+        code: `<span class="text-blue-400">@RestController</span>
 <span class="text-pink-400">public class</span> <span class="text-blue-300">UserController</span> {'{'}
     <span class="text-blue-400">@GetMapping</span>(<span class="text-green-300">"/status"</span>)
     <span class="text-pink-400">public</span> String <span class="text-blue-300">getStatus</span>() {'{'}
         <span class="text-pink-400">return</span> <span class="text-green-300">"Java Spring Boot is Live"</span>;
     {'}'}
 {'}'}`,
-    output: (
-      <div className="font-mono text-sm space-y-1 p-2">
-        <div className="text-white">mvn spring-boot:run</div>
-        <div className="text-gray-400">Tomcat started on port(s): 8080</div>
-        <div className="text-green-400">Started DemoApplication in 2.5s</div>
-      </div>
-    )
-  },
-  "PHP": {
-    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg",
-    file: "index.php",
-    code: `<span class="text-gray-500">&lt;?php</span>
+        output: (
+          <div className="font-mono text-sm space-y-1 p-2">
+            <div className="text-white">mvn spring-boot:run</div>
+            <div className="text-gray-400">Tomcat started on port(s): 8080</div>
+            <div className="text-green-400">Started DemoApplication in 2.5s</div>
+          </div>
+        )
+      },
+      "PHP": {
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg",
+        file: "index.php",
+        code: `<span class="text-gray-500">&lt;?php</span>
 <span class="text-blue-300">echo</span> <span class="text-green-300">"Native PHP is running..."</span>;`,
-    output: (
-      <div className="font-mono text-sm p-2">
-         <div className="text-white">php -S localhost:8000</div>
-         <div className="text-green-400">Native PHP is running...</div>
-      </div>
-    )
-  }
-},
+        output: (
+          <div className="font-mono text-sm p-2">
+            <div className="text-white">php -S localhost:8000</div>
+            <div className="text-green-400">Native PHP is running...</div>
+          </div>
+        )
+      }
+    },
     Database: {
       "MySQL": {
         logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
@@ -183,137 +183,137 @@ app = <span class="text-blue-300">FastAPI</span>()
       }
     },
     Tools: {
-  "Git": {
-    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
-    file: "terminal",
-    code: `<span class="text-blue-400">$</span> git add .
+      "Git": {
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",
+        file: "terminal",
+        code: `<span class="text-blue-400">$</span> git add .
 <span class="text-blue-400">$</span> git commit -m <span class="text-green-300">"feat: add dashboard logic"</span>
 <span class="text-blue-400">$</span> git push origin main`,
-    output: (
-      <div className="font-mono text-sm space-y-1 p-2">
-        <div className="text-gray-400">Enumerating objects: 12, done.</div>
-        <div className="text-gray-400">Delta compression using up to 8 threads.</div>
-        <div className="text-green-400">✓ Push successful to origin/main</div>
-      </div>
-    )
-  },
-  "GitHub": {
-  // GitHub logo visibility fix: humne 'github-original.svg' ki jagah simple SVG path 
-  // ya external high-contrast link use kiya hai
-  logo: "https://www.vectorlogo.zone/logos/github/github-tile.svg", 
-  file: "deploy.yml",
-  code: `<span class="text-pink-400">name:</span> <span class="text-green-300">CI/CD Pipeline</span>
+        output: (
+          <div className="font-mono text-sm space-y-1 p-2">
+            <div className="text-gray-400">Enumerating objects: 12, done.</div>
+            <div className="text-gray-400">Delta compression using up to 8 threads.</div>
+            <div className="text-green-400">✓ Push successful to origin/main</div>
+          </div>
+        )
+      },
+      "GitHub": {
+        // GitHub logo visibility fix: humne 'github-original.svg' ki jagah simple SVG path 
+        // ya external high-contrast link use kiya hai
+        logo: "https://www.vectorlogo.zone/logos/github/github-tile.svg",
+        file: "deploy.yml",
+        code: `<span class="text-pink-400">name:</span> <span class="text-green-300">CI/CD Pipeline</span>
 <span class="text-pink-400">on:</span> [push]
 <span class="text-pink-400">jobs:</span>
   <span class="text-pink-400">deploy:</span>
     <span class="text-pink-400">runs-on:</span> ubuntu-latest`,
-  output: (
-    <div className="font-mono text-sm space-y-1 p-2">
-      <div className="text-yellow-400">● Running: Build Job...</div>
-      <div className="text-green-400">✓ Deployment to Vercel complete!</div>
-      <div className="text-blue-400 underline cursor-pointer text-[10px]">https://armaan-dev.vercel.app</div>
-    </div>
-  )
-},
-//   "Docker": {
-//     logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
-//     file: "Dockerfile",
-//     code: `<span class="text-pink-400">FROM</span> node:18
-// <span class="text-pink-400">WORKDIR</span> /app
-// <span class="text-pink-400">COPY</span> . .
-// <span class="text-pink-400">RUN</span> npm install
-// <span class="text-pink-400">CMD</span> [<span class="text-green-300">"npm"</span>, <span class="text-green-300">"start"</span>]`,
-//     output: (
-//       <div className="font-mono text-sm space-y-1 p-2">
-//         <div className="text-white">docker-compose up -d</div>
-//         <div className="text-blue-400">Creating network "app_default"</div>
-//         <div className="text-green-400">Container app_web_1 is healthy.</div>
-//       </div>
-//     )
-//   },
-  "Postman": {
-    // Postman logo kaafi colorful hai aur visible rehta hai
-    logo: "https://www.vectorlogo.zone/logos/getpostman/getpostman-icon.svg",
-    file: "API Testing",
-    code: `<span class="text-blue-300">GET</span> <span class="text-green-300">/api/v1/health</span>
+        output: (
+          <div className="font-mono text-sm space-y-1 p-2">
+            <div className="text-yellow-400">● Running: Build Job...</div>
+            <div className="text-green-400">✓ Deployment to Vercel complete!</div>
+            <div className="text-blue-400 underline cursor-pointer text-[10px]">https://armaan-dev.vercel.app</div>
+          </div>
+        )
+      },
+      //   "Docker": {
+      //     logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
+      //     file: "Dockerfile",
+      //     code: `<span class="text-pink-400">FROM</span> node:18
+      // <span class="text-pink-400">WORKDIR</span> /app
+      // <span class="text-pink-400">COPY</span> . .
+      // <span class="text-pink-400">RUN</span> npm install
+      // <span class="text-pink-400">CMD</span> [<span class="text-green-300">"npm"</span>, <span class="text-green-300">"start"</span>]`,
+      //     output: (
+      //       <div className="font-mono text-sm space-y-1 p-2">
+      //         <div className="text-white">docker-compose up -d</div>
+      //         <div className="text-blue-400">Creating network "app_default"</div>
+      //         <div className="text-green-400">Container app_web_1 is healthy.</div>
+      //       </div>
+      //     )
+      //   },
+      "Postman": {
+        // Postman logo kaafi colorful hai aur visible rehta hai
+        logo: "https://www.vectorlogo.zone/logos/getpostman/getpostman-icon.svg",
+        file: "API Testing",
+        code: `<span class="text-blue-300">GET</span> <span class="text-green-300">/api/v1/health</span>
 <span class="text-pink-400">Authorization:</span> Bearer <span class="text-gray-400">JWT_TOKEN</span>
 <span class="text-pink-400">Content-Type:</span> application/json`,
-    output: (
-      <div className="font-mono text-sm p-2">
-        <div className="flex items-center space-x-2">
-          <span className="text-green-400 font-bold">200 OK</span>
-          <span className="text-gray-500">124ms</span>
-        </div>
-        <div className="text-gray-300 mt-1">{'{'} "status": "healthy" {'}'}</div>
-      </div>
-    )
-  }
-},
+        output: (
+          <div className="font-mono text-sm p-2">
+            <div className="flex items-center space-x-2">
+              <span className="text-green-400 font-bold">200 OK</span>
+              <span className="text-gray-500">124ms</span>
+            </div>
+            <div className="text-gray-300 mt-1">{'{'} "status": "healthy" {'}'}</div>
+          </div>
+        )
+      }
+    },
     Other: {
-  "Flask": {
-    // Flask ka official logo thoda dark hota hai, display ke waqt 'invert' use kar sakte hain
-    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg",
-    file: "app.py",
-    code: `<span class="text-pink-400">from</span> flask <span class="text-pink-400">import</span> Flask
+      "Flask": {
+        // Flask ka official logo thoda dark hota hai, display ke waqt 'invert' use kar sakte hain
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg",
+        file: "app.py",
+        code: `<span class="text-pink-400">from</span> flask <span class="text-pink-400">import</span> Flask
 
 app = <span class="text-blue-300">Flask</span>(__name__)
 
 <span class="text-blue-400">@app.route</span>(<span class="text-green-300">'/'</span>)
 <span class="text-blue-400">def</span> <span class="text-blue-300">hello</span>():
     <span class="text-pink-400">return</span> <span class="text-green-300">"Flask Micro-Framework Active"</span>`,
-    output: (
-      <div className="font-mono text-sm p-2">
-        <div className="text-white">python app.py</div>
-        <div className="text-green-400">* Running on http://127.0.0.1:5000</div>
-      </div>
-    )
-  },
-  "Django": {
-    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg",
-    file: "views.py",
-    code: `<span class="text-pink-400">from</span> django.http <span class="text-pink-400">import</span> HttpResponse
+        output: (
+          <div className="font-mono text-sm p-2">
+            <div className="text-white">python app.py</div>
+            <div className="text-green-400">* Running on http://127.0.0.1:5000</div>
+          </div>
+        )
+      },
+      "Django": {
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg",
+        file: "views.py",
+        code: `<span class="text-pink-400">from</span> django.http <span class="text-pink-400">import</span> HttpResponse
 
 <span class="text-blue-400">def</span> <span class="text-blue-300">index</span>(request):
     <span class="text-pink-400">return</span> <span class="text-blue-300">HttpResponse</span>(<span class="text-green-300">"Django Server is Up"</span>)`,
-    output: (
-      <div className="font-mono text-sm space-y-1 p-2">
-        <div className="text-white">python manage.py runserver</div>
-        <div className="text-gray-400">Performing system checks...</div>
-        <div className="text-green-400">Quit the server with CONTROL-C.</div>
-      </div>
-    )
-  },
-  "AI/ML": {
-    // Scikit-learn or Python logo is best for AI/ML representation
-    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg", 
-    file: "model.py",
-    code: `<span class="text-gray-500"># Artificial Intelligence & Machine Learning</span>
+        output: (
+          <div className="font-mono text-sm space-y-1 p-2">
+            <div className="text-white">python manage.py runserver</div>
+            <div className="text-gray-400">Performing system checks...</div>
+            <div className="text-green-400">Quit the server with CONTROL-C.</div>
+          </div>
+        )
+      },
+      "AI/ML": {
+        // Scikit-learn or Python logo is best for AI/ML representation
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
+        file: "model.py",
+        code: `<span class="text-gray-500"># Artificial Intelligence & Machine Learning</span>
 <span class="text-blue-300">print</span>(<span class="text-green-300">"Loading Neural Network..."</span>);`,
-    output: (
-      <div className="flex flex-col items-center justify-center h-full border-2 border-dashed border-gray-700 rounded-lg p-4 bg-gray-900/50">
-          <div className="animate-pulse text-pink-500 font-bold tracking-widest text-xs mb-1 text-center">COMING SOON</div>
-          <div className="text-[10px] text-gray-400 uppercase text-center">Training Models...</div>
-      </div>
-    )
-  },
-  "Data Science": {
-    // Pandas is the standard for DS
-    logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg",
-    file: "analysis.ipynb",
-    code: `<span class="text-pink-400">import</span> pandas <span class="text-pink-400">as</span> pd
+        output: (
+          <div className="flex flex-col items-center justify-center h-full border-2 border-dashed border-gray-700 rounded-lg p-4 bg-gray-900/50">
+            <div className="animate-pulse text-pink-500 font-bold tracking-widest text-xs mb-1 text-center">COMING SOON</div>
+            <div className="text-[10px] text-gray-400 uppercase text-center">Training Models...</div>
+          </div>
+        )
+      },
+      "Data Science": {
+        // Pandas is the standard for DS
+        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg",
+        file: "analysis.ipynb",
+        code: `<span class="text-pink-400">import</span> pandas <span class="text-pink-400">as</span> pd
 <span class="text-pink-400">import</span> numpy <span class="text-pink-400">as</span> np
 
 <span class="text-gray-500"># Data Analysis Pipeline</span>`,
-    output: (
-      <div className="flex flex-col items-center justify-center h-full border-2 border-dashed border-gray-700 rounded-lg p-4 bg-gray-900/50">
-          <div className="animate-pulse text-blue-500 font-bold tracking-widest text-xs mb-1 text-center">COMING SOON</div>
-          <div className="text-[10px] text-gray-400 uppercase text-center">Processing Datasets...</div>
-      </div>
-    )
-  }
-}
+        output: (
+          <div className="flex flex-col items-center justify-center h-full border-2 border-dashed border-gray-700 rounded-lg p-4 bg-gray-900/50">
+            <div className="animate-pulse text-blue-500 font-bold tracking-widest text-xs mb-1 text-center">COMING SOON</div>
+            <div className="text-[10px] text-gray-400 uppercase text-center">Processing Datasets...</div>
+          </div>
+        )
+      }
+    }
   };
-  
+
 
 
   const handleTabClick = (category) => {
@@ -325,7 +325,7 @@ app = <span class="text-blue-300">Flask</span>(__name__)
 
   return (
     <section id="skills" className="py-20 bg-[#121212] text-gray-300 relative overflow-hidden min-h-screen flex flex-col justify-center">
-      
+
       {/* Background Ambience */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-900/20 rounded-full blur-[100px] pointer-events-none"></div>
 
@@ -338,7 +338,7 @@ app = <span class="text-blue-300">Flask</span>(__name__)
         {/* --- MAIN INTERFACE --- */}
         {/* CHANGED: Reduced Height to 500px */}
         <div className="bg-[#1e1e1e] border border-[#333] rounded-xl shadow-2xl overflow-hidden flex flex-col h-[500px] md:h-[500px] relative">
-          
+
           {/* 1. TOP BAR: Category Tabs */}
           <div className="flex bg-[#252526] border-b border-[#333] overflow-x-auto no-scrollbar">
             {Object.keys(skillCategories).map((category) => (
@@ -347,18 +347,18 @@ app = <span class="text-blue-300">Flask</span>(__name__)
                 onClick={() => handleTabClick(category)}
                 className={`
                   px-6 py-3 text-sm font-medium transition-colors border-r border-[#333] flex items-center whitespace-nowrap
-                  ${activeTab === category 
-                    ? 'bg-[#1e1e1e] text-white border-t-2 border-t-indigo-500' 
+                  ${activeTab === category
+                    ? 'bg-[#1e1e1e] text-white border-t-2 border-t-indigo-500'
                     : 'bg-[#2d2d2d] text-gray-500 hover:bg-[#333] hover:text-gray-300'}
                 `}
               >
-               <Icons.Folder className="w-4 h-4 mr-2" /> {category}
+                <Icons.Folder className="w-4 h-4 mr-2" /> {category}
               </button>
             ))}
           </div>
 
           <div className="flex flex-1 overflow-hidden">
-            
+
             {/* 2. SIDEBAR: Skills List */}
             <div className="w-64 bg-[#252526] border-r border-[#333] flex flex-col hidden md:flex">
               <div className="px-4 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">
@@ -371,15 +371,15 @@ app = <span class="text-blue-300">Flask</span>(__name__)
                     onClick={() => setActiveSkill(skill)}
                     className={`
                       w-full text-left px-4 py-2 flex items-center space-x-2 text-sm transition-all border-l-2
-                      ${activeSkill === skill 
-                        ? 'bg-[#37373d] text-white border-indigo-500' 
+                      ${activeSkill === skill
+                        ? 'bg-[#37373d] text-white border-indigo-500'
                         : 'border-transparent text-gray-400 hover:bg-[#2a2d2e] hover:text-gray-200'}
                     `}
                   >
                     {/* CHANGED: Using Image Tag for Real Logo */}
-                    <img 
-                      src={skillCategories[activeTab][skill].logo} 
-                      alt={skill} 
+                    <img
+                      src={skillCategories[activeTab][skill].logo}
+                      alt={skill}
                       className="w-4 h-4 object-contain opacity-90"
                     />
                     <span>{skill}</span>
@@ -390,15 +390,15 @@ app = <span class="text-blue-300">Flask</span>(__name__)
 
             {/* 3. RIGHT PANEL: Code + Output */}
             <div className="flex-1 bg-[#1e1e1e] flex flex-col relative z-0">
-              
+
               {/* --- WATERMARK LOGO (ACTUAL LOGO) --- */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:top-10 md:left-auto md:right-10 md:translate-x-0 md:translate-y-0 pointer-events-none opacity-[0.07] transition-all duration-500 z-0">
-                 {/* CHANGED: Using Image Tag for Watermark */}
-                 <img 
-                    src={currentSkillData.logo} 
-                    alt="watermark" 
-                    className="w-48 h-48 md:w-64 md:h-64 object-contain grayscale"
-                 />
+                {/* CHANGED: Using Image Tag for Watermark */}
+                <img
+                  src={currentSkillData.logo}
+                  alt="watermark"
+                  className="w-48 h-48 md:w-64 md:h-64 object-contain grayscale"
+                />
               </div>
 
               {/* File Header */}
@@ -409,24 +409,24 @@ app = <span class="text-blue-300">Flask</span>(__name__)
 
               {/* CODE SECTION */}
               <div className="p-6 font-mono text-sm leading-relaxed overflow-auto flex-1 z-10 relative">
-                 <pre>
-                   <code dangerouslySetInnerHTML={{ __html: currentSkillData.code }} />
-                 </pre>
+                <pre>
+                  <code dangerouslySetInnerHTML={{ __html: currentSkillData.code }} />
+                </pre>
               </div>
 
               {/* OUTPUT SECTION */}
               <div className="h-[35%] border-t-2 border-[#333] bg-[#1a1a1a] flex flex-col z-10 relative">
-                 <div className="flex justify-between items-center px-4 py-1 bg-[#252526] border-b border-[#333]">
-                    <span className="text-xs font-bold text-gray-400 uppercase">Terminal / Output</span>
-                    <div className="flex space-x-2">
-                       <div className="w-2 h-2 rounded-full bg-gray-500"></div>
-                       <div className="w-2 h-2 rounded-full bg-gray-500"></div>
-                    </div>
-                 </div>
-                 
-                 <div className="flex-1 overflow-auto font-mono text-sm p-2">
-                    {currentSkillData.output}
-                 </div>
+                <div className="flex justify-between items-center px-4 py-1 bg-[#252526] border-b border-[#333]">
+                  <span className="text-xs font-bold text-gray-400 uppercase">Terminal / Output</span>
+                  <div className="flex space-x-2">
+                    <div className="w-2 h-2 rounded-full bg-gray-500"></div>
+                    <div className="w-2 h-2 rounded-full bg-gray-500"></div>
+                  </div>
+                </div>
+
+                <div className="flex-1 overflow-auto font-mono text-sm p-2">
+                  {currentSkillData.output}
+                </div>
               </div>
 
             </div>

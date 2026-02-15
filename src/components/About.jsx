@@ -43,7 +43,7 @@ const About = () => {
               <p className="text-lg text-gray-300 leading-relaxed">
                 I am a <span className="font-bold text-indigo-400">Full Stack Developer</span> with{' '}
                 <span className="bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 px-2 py-1 rounded-md font-mono text-sm font-semibold">
-                  1 year and 5 months
+                  1 year and 8 months
                 </span>{' '}
                 of hands-on experience in designing, developing, and deploying web applications.
               </p>
