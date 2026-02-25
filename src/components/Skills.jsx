@@ -437,4 +437,4 @@ app = <span class="text-blue-300">Flask</span>(__name__)
   );
 };
 
-export default SkillsTerminal;
+export default SkillsTerminal;  
