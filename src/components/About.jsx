@@ -40,34 +40,44 @@ const About = () => {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             {/* Left Column: Text */}
             <div className="space-y-6">
-              <p className="text-lg text-gray-300 leading-relaxed">
-                I am a <span className="font-bold text-indigo-400">Full Stack Developer</span> with{' '}
-                <span className="bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 px-2 py-1 rounded-md font-mono text-sm font-semibold">
-                  1 year and 8 months
-                </span>{' '}
-                of hands-on experience in designing, developing, and deploying web applications.
-              </p>
-              
-              <p className="text-lg text-gray-300 leading-relaxed">
-                I specialize in building scalable applications using modern technologies with a strong focus on:
-              </p>
+  <p className="text-lg text-gray-300 leading-relaxed">
+    I am a <span className="font-bold text-indigo-400">Full Stack Developer</span> with{' '}
+    <span className="bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 px-2 py-1 rounded-md font-mono text-sm font-semibold">
+      1 year and 8 months
+    </span>{' '}
+    of expertise in architecting high-performance web applications. I specialize in the 
+    <span className="text-indigo-400 font-semibold"> PHP & Laravel ecosystem</span>, 
+    crafting secure backends and seamless user experiences from the ground up.
+  </p>
+  
+  <p className="text-lg text-gray-300 leading-relaxed">
+    Beyond my core stack, I am passionate about 
+    <span className="text-indigo-400 font-semibold"> Python development</span>, 
+    exploring its potential for backend automation and scalable logic. My development philosophy focuses on:
+  </p>
 
-              {/* Feature List with Icons */}
-              <ul className="space-y-3 mt-4">
-                {['Performance Optimization', 'Clean UI / UX', 'Backend Efficiency'].map((item, index) => (
-                  <motion.li 
-                    key={item}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.4 + (index * 0.1) }}
-                    className="flex items-center text-gray-300 font-medium group"
-                  >
-                    <span className="w-2 h-2 bg-indigo-500 rounded-full mr-3 group-hover:scale-125 transition-transform"></span>
-                    {item}
-                  </motion.li>
-                ))}
-              </ul>
-            </div>
+  {/* Feature List with Icons */}
+  <ul className="space-y-3 mt-4">
+    {[
+      'Scalable Backend Architecture (Laravel/PHP)',
+      'RESTful API Design & Integration',
+      'Database Optimization (MySQL)',
+      'Modern Frontend Interactivity (JS/Bootstrap)',
+      'Emerging Interest in Python Backend Automation'
+    ].map((item, index) => (
+      <motion.li 
+        key={item}
+        initial={{ opacity: 0, x: -20 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.4 + (index * 0.1) }}
+        className="flex items-center text-gray-300 font-medium group"
+      >
+        <span className="w-2 h-2 bg-indigo-500 rounded-full mr-3 group-hover:scale-125 transition-transform shadow-[0_0_8px_rgba(99,102,241,0.8)]"></span>
+        {item}
+      </motion.li>
+    ))}
+  </ul>
+</div>
 
             {/* Right Column: Visual/Card */}
             <motion.div 

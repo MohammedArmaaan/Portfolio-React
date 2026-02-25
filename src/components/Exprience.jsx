@@ -98,43 +98,31 @@ const CodeWindow = ({ codeSnippet, errorMsg, fixedCode, delay }) => {
 
 const Experience = () => {
   const experiences = [
-    {
-      id: 1,
-      role: "Full Stack Developer",
-      company: "Tech Solutions Inc.",
-      date: "Aug 2024 - Present",
-      description: "Leading the development of complex backend systems. Faced high-traffic database bottlenecks and solved them using optimized indexing and caching.",
-      tech: ["Laravel", "React", "AWS"],
-      // Simulation Data
-      code: `<span class="text-pink-400">const</span> response = <span class="text-blue-300">await</span> db.<span class="text-yellow-300">query</span>(<span class="text-green-300">'SELECT * FROM users'</span>);`,
-      error: "Fatal Error: Memory Exhausted. Too many connections.",
-      fixed: `<span class="text-gray-500">// Optimized Query</span>\n<span class="text-pink-400">const</span> response = <span class="text-blue-300">await</span> db.<span class="text-yellow-300">query</span>(<span class="text-green-300">'SELECT id, name FROM users LIMIT 10'</span>);`
-    },
-    {
-      id: 2,
-      role: "Freelance Web Developer",
-      company: "Self Employed",
-      date: "Jan 2024 - Jul 2024",
-      description: "Built custom e-commerce sites. Often dealt with API integration conflicts and payment gateway failures during live transactions.",
-      tech: ["PHP", "Stripe", "JS"],
-      // Simulation Data
-      code: `payment.<span class="text-blue-300">charge</span>({\n  amount: <span class="text-orange-300">500</span>,\n  currency: <span class="text-green-300">'usd'</span>\n});`,
-      error: "401 Unauthorized: Invalid API Key provided.",
-      fixed: `<span class="text-gray-500">// Fixed Auth Header</span>\nheaders: { <span class="text-purple-300">Authorization</span>: <span class="text-green-300">'Bearer sk_live_...'</span> }`
-    },
-    {
-      id: 3,
-      role: "Web Development Intern",
-      company: "Creative Agency",
-      date: "Aug 2023 - Dec 2023",
-      description: "Started my journey fixing UI bugs. Struggled with responsiveness and centering divs, but mastered modern CSS layouts.",
-      tech: ["HTML", "CSS", "Git"],
-      // Simulation Data
-      code: `<span class="text-red-400">.container</span> {\n  float: <span class="text-orange-300">left</span>;\n  width: <span class="text-orange-300">100%</span>;\n}`,
-      error: "UI Glitch: Elements overlapping on mobile view.",
-      fixed: `<span class="text-gray-500">/* Modern Flexbox */</span>\n<span class="text-red-400">.container</span> {\n  display: <span class="text-purple-300">flex</span>;\n  justify-content: <span class="text-purple-300">center</span>;\n}`
-    }
-  ];
+  {
+    id: 1,
+    role: "Backend Developer",
+    company: "WW Journals",
+    date: "Dec 2025 - Present",
+    description: "Architecting robust backend systems for Journal Management. Streamlined communication by integrating automated mail marketing services and optimizing high-frequency data entry logic.",
+    tech: ["Laravel", "PHP", "SMTP/Mail Services", "MySQL"],
+    // Simulation Data: SMTP/Mail Marketing Fix
+    code: `<span class="text-pink-400">Mail</span>::<span class="text-yellow-300">to</span>($user)-><span class="text-yellow-300">send</span>(<span class="text-pink-400">new</span> <span class="text-blue-300">Newsletter</span>($data));`,
+    error: "ConnectionTimeout: Could not connect to SMTP host 'marketing-api.local'",
+    fixed: `<span class="text-gray-500">// Added Queue & Failover</span>\n<span class="text-pink-400">Mail</span>::<span class="text-yellow-300">to</span>($user)-><span class="text-yellow-300">queue</span>(<span class="text-pink-400">new</span> <span class="text-blue-300">Newsletter</span>($data));`
+  },
+  {
+    id: 2,
+    role: "Full Stack Laravel Developer",
+    company: "SNM TechCraft Innovation",
+    date: "April 2024 - Dec 2025",
+    description: "Developed scalable web applications focusing on seamless frontend-backend communication. Optimized RESTful APIs and built user-centric interfaces using modern Bootstrap/JS frameworks.",
+    tech: ["PHP", "Laravel", "MySQL", "JavaScript", "Bootstrap"],
+    // Simulation Data: REST API/CORS Fix
+    code: `<span class="text-pink-400">fetch</span>(<span class="text-green-300">'https://api.techcraft.com/data'</span>)\n .<span class="text-yellow-300">then</span>(res => res.<span class="text-yellow-300">json</span>());`,
+    error: "Access-Control-Allow-Origin: CORS header missing.",
+    fixed: `<span class="text-gray-500">// Applied Laravel Middleware</span>\n<span class="text-pink-400">protected</span> $middleware = [\n  \\Fruitcake\\Cors\\HandleCors::<span class="text-pink-400">class</span>\n];`
+  }
+];
 
   return (
     <section id="experience" className="py-24 bg-[#0f0f0f] text-gray-300 overflow-hidden relative">
