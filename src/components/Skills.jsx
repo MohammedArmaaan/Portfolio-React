@@ -3,10 +3,13 @@ import React, { useState } from 'react';
 const SkillsTerminal = () => {
   const [activeTab, setActiveTab] = useState("Frontend");
   const [activeSkill, setActiveSkill] = useState("React.js");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // --- ICONS (Using Official DevIcon URLs for 100% Accuracy) ---
   const Icons = {
-    Folder: ({ className }) => <svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" /></svg>
+    Folder: ({ className }) => <svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" /></svg>,
+    Menu: ({ className }) => <svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" /></svg>,
+    Close: ({ className }) => <svg viewBox="0 0 24 24" fill="currentColor" className={className}><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" /></svg>
   };
 
   const skillCategories = {
@@ -198,8 +201,6 @@ app = <span class="text-blue-300">FastAPI</span>()
         )
       },
       "GitHub": {
-        // GitHub logo visibility fix: humne 'github-original.svg' ki jagah simple SVG path 
-        // ya external high-contrast link use kiya hai
         logo: "https://www.vectorlogo.zone/logos/github/github-tile.svg",
         file: "deploy.yml",
         code: `<span class="text-pink-400">name:</span> <span class="text-green-300">CI/CD Pipeline</span>
@@ -215,24 +216,7 @@ app = <span class="text-blue-300">FastAPI</span>()
           </div>
         )
       },
-      //   "Docker": {
-      //     logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",
-      //     file: "Dockerfile",
-      //     code: `<span class="text-pink-400">FROM</span> node:18
-      // <span class="text-pink-400">WORKDIR</span> /app
-      // <span class="text-pink-400">COPY</span> . .
-      // <span class="text-pink-400">RUN</span> npm install
-      // <span class="text-pink-400">CMD</span> [<span class="text-green-300">"npm"</span>, <span class="text-green-300">"start"</span>]`,
-      //     output: (
-      //       <div className="font-mono text-sm space-y-1 p-2">
-      //         <div className="text-white">docker-compose up -d</div>
-      //         <div className="text-blue-400">Creating network "app_default"</div>
-      //         <div className="text-green-400">Container app_web_1 is healthy.</div>
-      //       </div>
-      //     )
-      //   },
       "Postman": {
-        // Postman logo kaafi colorful hai aur visible rehta hai
         logo: "https://www.vectorlogo.zone/logos/getpostman/getpostman-icon.svg",
         file: "API Testing",
         code: `<span class="text-blue-300">GET</span> <span class="text-green-300">/api/v1/health</span>
@@ -251,7 +235,6 @@ app = <span class="text-blue-300">FastAPI</span>()
     },
     Other: {
       "Flask": {
-        // Flask ka official logo thoda dark hota hai, display ke waqt 'invert' use kar sakte hain
         logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg",
         file: "app.py",
         code: `<span class="text-pink-400">from</span> flask <span class="text-pink-400">import</span> Flask
@@ -284,7 +267,6 @@ app = <span class="text-blue-300">Flask</span>(__name__)
         )
       },
       "AI/ML": {
-        // Scikit-learn or Python logo is best for AI/ML representation
         logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
         file: "model.py",
         code: `<span class="text-gray-500"># Artificial Intelligence & Machine Learning</span>
@@ -297,7 +279,6 @@ app = <span class="text-blue-300">Flask</span>(__name__)
         )
       },
       "Data Science": {
-        // Pandas is the standard for DS
         logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg",
         file: "analysis.ipynb",
         code: `<span class="text-pink-400">import</span> pandas <span class="text-pink-400">as</span> pd
@@ -314,58 +295,88 @@ app = <span class="text-blue-300">Flask</span>(__name__)
     }
   };
 
-
-
   const handleTabClick = (category) => {
     setActiveTab(category);
     setActiveSkill(Object.keys(skillCategories[category])[0]);
+    setMobileMenuOpen(false);
   };
 
   const currentSkillData = skillCategories[activeTab][activeSkill];
+  const currentSkillsList = Object.keys(skillCategories[activeTab]);
+
+  // Mobile skill selector component
+  const MobileSkillSelector = () => (
+    <div className="md:hidden border-b border-[#333] bg-[#252526] p-2 flex items-center justify-between">
+      <div className="flex items-center gap-2 flex-wrap">
+        <img src={currentSkillData.logo} alt={activeSkill} className="w-5 h-5 object-contain" />
+        <span className="text-sm font-mono text-gray-200">{activeSkill}</span>
+      </div>
+      <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="p-1 text-gray-400 hover:text-white">
+        {mobileMenuOpen ? <Icons.Close className="w-5 h-5" /> : <Icons.Menu className="w-5 h-5" />}
+      </button>
+    </div>
+  );
+
+  // Mobile skill drawer
+  const SkillDrawer = () => (
+    <div className={`md:hidden bg-[#252526] border-t border-[#333] overflow-y-auto transition-all duration-300 ${mobileMenuOpen ? 'max-h-64' : 'max-h-0'} overflow-hidden`}>
+      <div className="p-2 grid grid-cols-2 gap-1">
+        {currentSkillsList.map((skill) => (
+          <button
+            key={skill}
+            onClick={() => {
+              setActiveSkill(skill);
+              setMobileMenuOpen(false);
+            }}
+            className={`flex items-center space-x-2 p-2 rounded text-sm transition-all ${activeSkill === skill ? 'bg-indigo-600/30 text-white border-l-2 border-indigo-500' : 'text-gray-400 hover:bg-[#2a2d2e]'}`}
+          >
+            <img src={skillCategories[activeTab][skill].logo} alt={skill} className="w-4 h-4 object-contain" />
+            <span>{skill}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
 
   return (
-    <section id="skills" className="py-20 bg-[#121212] text-gray-300 relative overflow-hidden min-h-screen flex flex-col justify-center">
-
+    <section id="skills" className="py-12 sm:py-20 bg-[#121212] text-gray-300 relative overflow-hidden min-h-screen flex flex-col justify-center">
       {/* Background Ambience */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-900/20 rounded-full blur-[100px] pointer-events-none"></div>
 
-      <div className="max-w-5xl mx-auto px-4 w-full relative z-10">
-        <div className="text-center mb-10">
-          <h2 className="text-4xl font-bold text-white tracking-tight mb-2">Technical Arsenal</h2>
-          <p className="text-gray-400">My code stack and live outputs.</p>
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 w-full relative z-10">
+        <div className="text-center mb-8 sm:mb-10">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-2">Technical Arsenal</h2>
+          <p className="text-gray-400 text-sm sm:text-base">My code stack and live outputs.</p>
         </div>
 
-        {/* --- MAIN INTERFACE --- */}
-        {/* CHANGED: Reduced Height to 500px */}
-        <div className="bg-[#1e1e1e] border border-[#333] rounded-xl shadow-2xl overflow-hidden flex flex-col h-[500px] md:h-[500px] relative">
-
-          {/* 1. TOP BAR: Category Tabs */}
+        {/* MAIN INTERFACE - Fully Responsive Container */}
+        <div className="bg-[#1e1e1e] border border-[#333] rounded-xl shadow-2xl overflow-hidden flex flex-col h-auto md:h-[500px] relative">
+          {/* TOP BAR: Category Tabs - Responsive scroll */}
           <div className="flex bg-[#252526] border-b border-[#333] overflow-x-auto no-scrollbar">
             {Object.keys(skillCategories).map((category) => (
               <button
                 key={category}
                 onClick={() => handleTabClick(category)}
                 className={`
-                  px-6 py-3 text-sm font-medium transition-colors border-r border-[#333] flex items-center whitespace-nowrap
+                  px-4 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-medium transition-colors border-r border-[#333] flex items-center whitespace-nowrap
                   ${activeTab === category
                     ? 'bg-[#1e1e1e] text-white border-t-2 border-t-indigo-500'
                     : 'bg-[#2d2d2d] text-gray-500 hover:bg-[#333] hover:text-gray-300'}
                 `}
               >
-                <Icons.Folder className="w-4 h-4 mr-2" /> {category}
+                <Icons.Folder className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-1.5 sm:mr-2" /> {category}
               </button>
             ))}
           </div>
 
-          <div className="flex flex-1 overflow-hidden">
-
-            {/* 2. SIDEBAR: Skills List */}
-            <div className="w-64 bg-[#252526] border-r border-[#333] flex flex-col hidden md:flex">
+          <div className="flex flex-1 flex-col md:flex-row overflow-hidden">
+            {/* DESKTOP SIDEBAR */}
+            <div className="hidden md:flex w-64 bg-[#252526] border-r border-[#333] flex-col">
               <div className="px-4 py-3 text-xs font-bold text-gray-500 uppercase tracking-wider">
                 EXPLORER
               </div>
               <div className="flex-1 overflow-y-auto">
-                {Object.keys(skillCategories[activeTab]).map((skill) => (
+                {currentSkillsList.map((skill) => (
                   <button
                     key={skill}
                     onClick={() => setActiveSkill(skill)}
@@ -376,65 +387,67 @@ app = <span class="text-blue-300">Flask</span>(__name__)
                         : 'border-transparent text-gray-400 hover:bg-[#2a2d2e] hover:text-gray-200'}
                     `}
                   >
-                    {/* CHANGED: Using Image Tag for Real Logo */}
-                    <img
-                      src={skillCategories[activeTab][skill].logo}
-                      alt={skill}
-                      className="w-4 h-4 object-contain opacity-90"
-                    />
+                    <img src={skillCategories[activeTab][skill].logo} alt={skill} className="w-4 h-4 object-contain opacity-90" />
                     <span>{skill}</span>
                   </button>
                 ))}
               </div>
             </div>
 
-            {/* 3. RIGHT PANEL: Code + Output */}
-            <div className="flex-1 bg-[#1e1e1e] flex flex-col relative z-0">
+            {/* RIGHT PANEL: Code + Output */}
+            <div className="flex-1 bg-[#1e1e1e] flex flex-col relative z-0 min-h-[450px] md:min-h-0">
+              {/* Mobile Components */}
+              <MobileSkillSelector />
+              <SkillDrawer />
 
-              {/* --- WATERMARK LOGO (ACTUAL LOGO) --- */}
+              {/* WATERMARK LOGO */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:top-10 md:left-auto md:right-10 md:translate-x-0 md:translate-y-0 pointer-events-none opacity-[0.07] transition-all duration-500 z-0">
-                {/* CHANGED: Using Image Tag for Watermark */}
-                <img
-                  src={currentSkillData.logo}
-                  alt="watermark"
-                  className="w-48 h-48 md:w-64 md:h-64 object-contain grayscale"
-                />
+                <img src={currentSkillData.logo} alt="watermark" className="w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 object-contain grayscale" />
               </div>
 
               {/* File Header */}
-              <div className="flex items-center px-4 py-2 bg-[#1e1e1e] border-b border-[#333] text-xs text-gray-400 font-mono z-10 relative">
+              <div className="flex items-center px-3 sm:px-4 py-2 bg-[#1e1e1e] border-b border-[#333] text-xs text-gray-400 font-mono z-10 relative">
                 <span className="mr-2 text-yellow-500">JS</span>
                 {currentSkillData.file}
               </div>
 
               {/* CODE SECTION */}
-              <div className="p-6 font-mono text-sm leading-relaxed overflow-auto flex-1 z-10 relative">
-                <pre>
+              <div className="p-3 sm:p-6 font-mono text-xs sm:text-sm leading-relaxed overflow-auto flex-1 z-10 relative">
+                <pre className="whitespace-pre-wrap break-words">
                   <code dangerouslySetInnerHTML={{ __html: currentSkillData.code }} />
                 </pre>
               </div>
 
               {/* OUTPUT SECTION */}
-              <div className="h-[35%] border-t-2 border-[#333] bg-[#1a1a1a] flex flex-col z-10 relative">
-                <div className="flex justify-between items-center px-4 py-1 bg-[#252526] border-b border-[#333]">
+              <div className="h-[35%] min-h-[130px] border-t-2 border-[#333] bg-[#1a1a1a] flex flex-col z-10 relative">
+                <div className="flex justify-between items-center px-3 sm:px-4 py-1 bg-[#252526] border-b border-[#333]">
                   <span className="text-xs font-bold text-gray-400 uppercase">Terminal / Output</span>
                   <div className="flex space-x-2">
                     <div className="w-2 h-2 rounded-full bg-gray-500"></div>
                     <div className="w-2 h-2 rounded-full bg-gray-500"></div>
                   </div>
                 </div>
-
-                <div className="flex-1 overflow-auto font-mono text-sm p-2">
+                <div className="flex-1 overflow-auto font-mono text-xs sm:text-sm p-2">
                   {currentSkillData.output}
                 </div>
               </div>
-
             </div>
           </div>
         </div>
       </div>
+
+      {/* Add this to your global CSS or tailwind config */}
+      <style jsx>{`
+        .no-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .no-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
     </section>
   );
 };
 
-export default SkillsTerminal;  
+export default SkillsTerminal;
