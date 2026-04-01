@@ -8,6 +8,7 @@ import About from "./components/About.jsx";
 import Skills from "./components/Skills.jsx";
 import Experience from "./components/Exprience.jsx"; // Note: Check spelling in your file name
 import Projects from "./components/Projects.jsx";
+import Certificates from "./components/Certificates.jsx"; // 1. New Import
 import Contact from "./components/Contact.jsx";
 import Footer from "./components/Footer.jsx";
 import Preloader from "./components/Preloader.jsx"; // Make sure Preloader.jsx exists
@@ -44,6 +45,7 @@ function App() {
           <Skills />
           <Experience />
           <Projects />
+          <Certificates /> {/* 2. Add here */}
           <Contact />
           <Footer />
         </>

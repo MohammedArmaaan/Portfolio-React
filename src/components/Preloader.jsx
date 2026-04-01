@@ -1,141 +1,187 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
-const Preloader = () => {
-  const [text, setText] = useState("SYSTEM_INTEGRITY_CHECK");
+const Preloader = ({ onLoadingComplete }) => {
   const [progress, setProgress] = useState(0);
-
-  // More professional technical status messages
-  const bootSequence = [
-    "INITIALIZING_CORE_MODULES...",
-    "LOADING_ASSETS_MEMORY...",
-    "ESTABLISHING_SECURE_UPLINK...",
-    "RENDERING_INTERFACE...",
-    "WELCOME_USER // ARMAAN"
+  const [currentStep, setCurrentStep] = useState(0);
+  
+  // Professional portfolio loading steps
+  const loadingSteps = [
+    { text: "Initializing portfolio environment", icon: "⚡", progress: 15 },
+    { text: "Loading creative modules", icon: "🎨", progress: 30 },
+    { text: "Compiling experience data", icon: "📊", progress: 45 },
+    { text: "Optimizing visual assets", icon: "✨", progress: 60 },
+    { text: "Establishing secure connection", icon: "🔒", progress: 75 },
+    { text: "Preparing interactive elements", icon: "🎯", progress: 90 },
+    { text: "Ready to showcase work", icon: "🚀", progress: 100 }
   ];
 
   useEffect(() => {
-    // 1. Smoother Progress Logic
-    const totalTime = 2200; // Slightly less than the parent 2500ms to ensure completion
-    const intervalTime = 30;
-    const increment = 100 / (totalTime / intervalTime);
+    let startTime = Date.now();
+    const duration = 2500; // 2.5 seconds
+    
+    const interval = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      let newProgress = Math.min((elapsed / duration) * 100, 100);
+      
+      // Smooth easing
+      newProgress = Math.pow(newProgress / 100, 0.7) * 100;
+      setProgress(newProgress);
+      
+      // Update step based on progress
+      const stepIndex = loadingSteps.findIndex(step => newProgress <= step.progress);
+      setCurrentStep(Math.max(0, stepIndex === -1 ? loadingSteps.length - 1 : stepIndex));
+      
+      if (newProgress >= 100) {
+        clearInterval(interval);
+        setTimeout(() => {
+          if (onLoadingComplete) onLoadingComplete();
+        }, 200);
+      }
+    }, 16);
+    
+    return () => clearInterval(interval);
+  }, [onLoadingComplete]);
 
-    const timer = setInterval(() => {
-      setProgress((old) => {
-        if (old >= 100) {
-          clearInterval(timer);
-          return 100;
-        }
-        // Adding a tiny bit of random variation for realism
-        const variation = Math.random() * 0.5;
-        return Math.min(old + increment + variation, 100);
-      });
-    }, intervalTime);
-
-    // 2. Changing Text Logic based on progress
-    const wordTimer = setInterval(() => {
-      setProgress((currentProgress) => {
-        // Change text based on how far progress has reached
-        if (currentProgress < 20) setText(bootSequence[0]);
-        else if (currentProgress < 45) setText(bootSequence[1]);
-        else if (currentProgress < 70) setText(bootSequence[2]);
-        else if (currentProgress < 90) setText(bootSequence[3]);
-        else setText(bootSequence[4]);
-        return currentProgress;
-      });
-    }, 200);
-
-    return () => {
-      clearInterval(timer);
-      clearInterval(wordTimer);
-    };
-  }, []);
-
-  // Calculating circle circumference for SVG animation
-  const radius = 70;
+  const currentLoadingData = loadingSteps[currentStep];
+  const radius = 65;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (progress / 100) * circumference;
 
   return (
-    <motion.div
-      initial={{ opacity: 1 }}
-      exit={{ 
-        y: "-100%", 
-        opacity: 0,
-        transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } // Custom bezier for premium feel
-      }}
-      className="fixed inset-0 z-[9999] bg-[#030303] flex flex-col items-center justify-center font-mono overflow-hidden"
-    >
-      
-      {/* --- MAIN HUD CONTAINER --- */}
-      <div className="relative flex items-center justify-center mb-8">
-        
-        {/* 1. Outer Rotating Deco Ring (Slow) */}
-        <motion.div 
-          animate={{ rotate: 360 }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute w-64 h-64 rounded-full border-[1px] border-dashed border-emerald-900/40"
-        ></motion.div>
-
-         {/* 2. Inner Rotating Deco Ring (Fast Reverse) */}
-         <motion.div 
-          animate={{ rotate: -360 }}
-          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-          className="absolute w-56 h-56 rounded-full border-[1px] border-t-emerald-500/30 border-r-transparent border-b-emerald-500/30 border-l-transparent"
-        ></motion.div>
-
-        {/* 3. SVG Circular Progress Bar */}
-        <svg className="w-48 h-48 transform -rotate-90 drop-shadow-[0_0_15px_rgba(16,185,129,0.4)]">
-          {/* Background Circle Track */}
-          <circle
-            cx="96" cy="96" r={radius}
-            stroke="currentColor" strokeWidth="4" fill="transparent"
-            className="text-emerald-950/30"
-          />
-          {/* Animated Progress Circle */}
-          <motion.circle
-            cx="96" cy="96" r={radius}
-            stroke="currentColor" strokeWidth="6" fill="transparent"
-            strokeLinecap="round"
-            className="text-emerald-500"
-            style={{ strokeDasharray: circumference, strokeDashoffset }}
-            // Adding a slight pulse to the stroke
-            animate={{ strokeOpacity: [0.8, 1, 0.8] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          />
-        </svg>
-
-        {/* 4. Center Percentage Text */}
-        <div className="absolute flex flex-col items-center justify-center">
-          <span className="text-4xl font-bold text-white tracking-tighter">
-            {Math.round(progress)}
-            <span className="text-emerald-500 text-2xl">%</span>
-          </span>
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 1 }}
+        exit={{ 
+          opacity: 0,
+          transition: { duration: 0.5, ease: "easeInOut" }
+        }}
+        className="fixed inset-0 z-[9999] bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center font-sans"
+      >
+        <div className="relative max-w-md w-full mx-6">
+          
+          {/* Main Card */}
+          <motion.div
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="bg-white/5 backdrop-blur-xl rounded-2xl p-8 border border-white/10 shadow-2xl"
+          >
+            
+            {/* Logo/Icon Area */}
+            <div className="flex justify-center mb-8">
+              <div className="relative">
+                {/* Outer Ring */}
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                  className="absolute inset-0 rounded-full border border-indigo-500/30"
+                  style={{ width: '100px', height: '100px', margin: '-8px' }}
+                />
+                
+                {/* Progress Circle */}
+                <svg className="w-24 h-24 transform -rotate-90">
+                  <circle
+                    cx="48"
+                    cy="48"
+                    r={radius - 23}
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    fill="none"
+                    className="text-white/10"
+                  />
+                  <motion.circle
+                    cx="48"
+                    cy="48"
+                    r={radius - 23}
+                    stroke="url(#gradient)"
+                    strokeWidth="3"
+                    fill="none"
+                    strokeLinecap="round"
+                    style={{ strokeDasharray: circumference, strokeDashoffset }}
+                  />
+                  <defs>
+                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#6366f1" />
+                      <stop offset="100%" stopColor="#8b5cf6" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+                
+                {/* Center Content */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-2xl">{currentLoadingData.icon}</span>
+                </div>
+              </div>
+            </div>
+            
+            {/* Loading Text */}
+            <div className="text-center space-y-4">
+              <motion.h3
+                key={currentLoadingData.text}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-white text-lg font-medium"
+              >
+                {currentLoadingData.text}
+              </motion.h3>
+              
+              {/* Progress Percentage */}
+              <div className="flex justify-center items-baseline space-x-1">
+                <motion.span
+                  key={Math.floor(progress)}
+                  initial={{ scale: 0.8 }}
+                  animate={{ scale: 1 }}
+                  className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400"
+                >
+                  {Math.floor(progress)}
+                </motion.span>
+                <span className="text-white/50 text-lg">%</span>
+              </div>
+              
+              {/* Progress Bar */}
+              <div className="relative">
+                <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+                  <motion.div
+                    className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"
+                    style={{ width: `${progress}%` }}
+                    transition={{ duration: 0.1 }}
+                  />
+                </div>
+              </div>
+              
+              {/* Loading Dots */}
+              <div className="flex justify-center space-x-1">
+                {[...Array(3)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    animate={{ 
+                      y: [0, -4, 0],
+                      opacity: [0.3, 1, 0.3]
+                    }}
+                    transition={{ 
+                      duration: 1,
+                      repeat: Infinity,
+                      delay: i * 0.2
+                    }}
+                    className="w-1.5 h-1.5 rounded-full bg-indigo-400"
+                  />
+                ))}
+              </div>
+            </div>
+            
+            {/* Footer Note */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              className="text-center text-xs text-white/40 mt-6"
+            >
+              portfolio • creative developer
+            </motion.p>
+          </motion.div>
         </div>
-      </div>
-      
-      {/* --- STATUS TEXT AREA --- */}
-      <div className="flex flex-col items-center space-y-2 z-10">
-        <div className="h-6 flex items-center space-x-3 text-sm uppercase tracking-[0.2em]">
-          <span className="text-emerald-700/70">Let's Collaborate</span>
-          <span className="text-emerald-100"> {text}</span>
-          {/* Blinking Cursor */}
-          <motion.span 
-            animate={{ opacity: [0, 1, 0] }}
-            transition={{ duration: 0.8, repeat: Infinity }}
-            className="w-2 h-4 bg-emerald-400 block"
-          ></motion.span>
-        </div>
-        {/* Subtle bottom line */}
-        <div className="w-48 h-[1px] bg-gradient-to-r from-transparent via-emerald-900/50 to-transparent"></div>
-      </div>
-
-      {/* Background Subtle Grid & Vignette */}
-      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_0%,#000000_90%)]"></div>
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
-           style={{ backgroundImage: 'linear-gradient(#10b981 1px, transparent 1px), linear-gradient(to right, #10b981 1px, transparent 1px)', backgroundSize: '30px 30px' }}>
-      </div>
-    </motion.div>
+      </motion.div>
+    </AnimatePresence>
   );
 };
 

@@ -345,7 +345,7 @@ app = <span class="text-blue-300">Flask</span>(__name__)
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 w-full relative z-10">
         <div className="text-center mb-8 sm:mb-10">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-2">Technical Arsenal</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-2">Technical <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">Skills</span></h2>
           <p className="text-gray-400 text-sm sm:text-base">My code stack and live outputs.</p>
         </div>
 
