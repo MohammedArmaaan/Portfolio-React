@@ -5,6 +5,15 @@ const Certificates = () => {
   const certifications = [
     {
       id: 1,
+      title: "Html Certificate",
+      provider: "Parul University",
+      date: "2026",
+      status: "Verified",
+      fileUrl: "/assets/Html-Certificate.pdf", 
+      tags: ["HTML", "CSS", "JavaScript"]
+    },
+    {
+      id: 2,
       title: "Web Designing	and	Development",
       provider: "Parul University",
       date: "2026",
@@ -13,7 +22,7 @@ const Certificates = () => {
       tags: ["HTML", "CSS", "JavaScript",]
     },
     {
-      id: 2,
+      id: 3,
       title: "Data Science Specialization",
       provider: "Code With Harry",
       date: "2025",
@@ -21,6 +30,7 @@ const Certificates = () => {
       fileUrl: "/assets/Data Science Certificate - Harry.pdf", 
       tags: ["Python", "Statistics", "Machine Learning"]
     }
+    
   ];
 
   return (

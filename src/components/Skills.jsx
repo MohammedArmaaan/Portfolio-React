@@ -128,24 +128,24 @@ app = <span class="text-blue-300">FastAPI</span>()
           </div>
         )
       },
-      "Java": {
-        logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
-        file: "UserController.java",
-        code: `<span class="text-blue-400">@RestController</span>
-<span class="text-pink-400">public class</span> <span class="text-blue-300">UserController</span> {'{'}
-    <span class="text-blue-400">@GetMapping</span>(<span class="text-green-300">"/status"</span>)
-    <span class="text-pink-400">public</span> String <span class="text-blue-300">getStatus</span>() {'{'}
-        <span class="text-pink-400">return</span> <span class="text-green-300">"Java Spring Boot is Live"</span>;
-    {'}'}
-{'}'}`,
-        output: (
-          <div className="font-mono text-sm space-y-1 p-2">
-            <div className="text-white">mvn spring-boot:run</div>
-            <div className="text-gray-400">Tomcat started on port(s): 8080</div>
-            <div className="text-green-400">Started DemoApplication in 2.5s</div>
-          </div>
-        )
-      },
+//       "Java": {
+//         logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",
+//         file: "UserController.java",
+//         code: `<span class="text-blue-400">@RestController</span>
+// <span class="text-pink-400">public class</span> <span class="text-blue-300">UserController</span> {'{'}
+//     <span class="text-blue-400">@GetMapping</span>(<span class="text-green-300">"/status"</span>)
+//     <span class="text-pink-400">public</span> String <span class="text-blue-300">getStatus</span>() {'{'}
+//         <span class="text-pink-400">return</span> <span class="text-green-300">"Java Spring Boot is Live"</span>;
+//     {'}'}
+// {'}'}`,
+//         output: (
+//           <div className="font-mono text-sm space-y-1 p-2">
+//             <div className="text-white">mvn spring-boot:run</div>
+//             <div className="text-gray-400">Tomcat started on port(s): 8080</div>
+//             <div className="text-green-400">Started DemoApplication in 2.5s</div>
+//           </div>
+//         )
+//       },
       "PHP": {
         logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg",
         file: "index.php",
@@ -243,7 +243,7 @@ app = <span class="text-blue-300">Flask</span>(__name__)
 
 <span class="text-blue-400">@app.route</span>(<span class="text-green-300">'/'</span>)
 <span class="text-blue-400">def</span> <span class="text-blue-300">hello</span>():
-    <span class="text-pink-400">return</span> <span class="text-green-300">"Flask Micro-Framework Active"</span>`,
+    <span class="text-pink-400">return</span> <span class="text-green-300">"Need To Recall"</span>`,
         output: (
           <div className="font-mono text-sm p-2">
             <div className="text-white">python app.py</div>
@@ -257,7 +257,7 @@ app = <span class="text-blue-300">Flask</span>(__name__)
         code: `<span class="text-pink-400">from</span> django.http <span class="text-pink-400">import</span> HttpResponse
 
 <span class="text-blue-400">def</span> <span class="text-blue-300">index</span>(request):
-    <span class="text-pink-400">return</span> <span class="text-blue-300">HttpResponse</span>(<span class="text-green-300">"Django Server is Up"</span>)`,
+    <span class="text-pink-400">return</span> <span class="text-blue-300">HttpResponse</span>(<span class="text-green-300">"Needed To Recall"</span>)`,
         output: (
           <div className="font-mono text-sm space-y-1 p-2">
             <div className="text-white">python manage.py runserver</div>
@@ -270,7 +270,7 @@ app = <span class="text-blue-300">Flask</span>(__name__)
         logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
         file: "model.py",
         code: `<span class="text-gray-500"># Artificial Intelligence & Machine Learning</span>
-<span class="text-blue-300">print</span>(<span class="text-green-300">"Loading Neural Network..."</span>);`,
+<span class="text-blue-300">print</span>(<span class="text-green-300">"Comming Soon..."</span>);`,
         output: (
           <div className="flex flex-col items-center justify-center h-full border-2 border-dashed border-gray-700 rounded-lg p-4 bg-gray-900/50">
             <div className="animate-pulse text-pink-500 font-bold tracking-widest text-xs mb-1 text-center">COMING SOON</div>
@@ -284,7 +284,7 @@ app = <span class="text-blue-300">Flask</span>(__name__)
         code: `<span class="text-pink-400">import</span> pandas <span class="text-pink-400">as</span> pd
 <span class="text-pink-400">import</span> numpy <span class="text-pink-400">as</span> np
 
-<span class="text-gray-500"># Data Analysis Pipeline</span>`,
+<span class="text-gray-500"># Comming Soon...</span>`,
         output: (
           <div className="flex flex-col items-center justify-center h-full border-2 border-dashed border-gray-700 rounded-lg p-4 bg-gray-900/50">
             <div className="animate-pulse text-blue-500 font-bold tracking-widest text-xs mb-1 text-center">COMING SOON</div>
