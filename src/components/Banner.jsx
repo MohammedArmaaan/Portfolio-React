@@ -23,7 +23,7 @@ const Banner = () => {
 
   // --- CONFIG ---
   const fullName = "Mohammed Armaan";
-  const roles = ["Laravel Full Stack Developer", "Backend Developer", "React Developer", "Python Developer", "Problem Solver"];
+  const roles = ["Laravel Full Stack Developer", "PHP / Laravel Backend Developer", "React Developer", "Python Developer", "Problem Solver"];
 
   // --- ORBIT DATA ---
   const orbitData = [
