@@ -15,12 +15,12 @@ const Projects = () => {
     },
     {
       id: 2,
-      title: "Task Management System",
-      description: "Collaborative tool for teams to track progress. Implements Kanban-style boards, role-based access control (RBAC), and real-time notifications.",
+      title: "Billing System",
+      description: "A comprehensive billing system for managing wholesale transactions, including invoice generation, payment tracking, and inventory management.",
       tech: ["Laravel", "Bootstrap", "MySQL"],
       role: "Backend Lead",
-      liveUrl: "https://mohammedarmaaan.github.io/Portfolio/",
-      livecode: "https://github.com/MohammedArmaaan/Portfolio-React",
+      liveUrl: "https://snmtc.in/ZS/admin",
+      livecode: "https://github.com/MohammedArmaaan/billing-system",
     },
     {
       id: 3,
