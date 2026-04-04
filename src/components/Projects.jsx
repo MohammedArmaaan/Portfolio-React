@@ -6,8 +6,8 @@ const Projects = () => {
   const projects = [
     {
       id: 1,
-      title: "Job Portal Application",
-      description: "A comprehensive platform connecting employers and job seekers. Features include resume parsing, job posting management, and admin moderation tools.",
+      title: "Panji Tea - Savera",
+      description: "A high-end, responsive static website designed for a specialty tea brand. The project focuses on a clean, aesthetic to showcase premium products and Attract users, List Products/Services, Inquiry Form Direct To mail, Contact Information, Brand Storytelling.",
       tech: ["Laravel", "React", "MySQL"],
       role: "Full Stack",
       liveUrl: "https://panji-savera.vercel.app/",
@@ -24,7 +24,7 @@ const Projects = () => {
     },
     {
       id: 3,
-      title: "Student Management System",
+      title: "Subscription Management System",
       description: "Lightweight CRUD application for educational institutes. Handles student records, attendance tracking, and grade management efficiently.",
       tech: ["PHP", "MySQL", "HTML/CSS"],
       role: "Solo Dev",
@@ -69,7 +69,7 @@ const Projects = () => {
                   <h3 className="text-xl font-bold text-white group-hover:text-indigo-300 transition-colors">{project.title}</h3>
                 </div>
                 
-                <p className="text-gray-400 text-sm mb-4 leading-relaxed line-clamp-3 flex-grow">{project.description}</p>
+                <p className="text-gray-400 text-sm mb-0 leading-relaxed line-clamp-3 flex-grow">{project.description}</p>
                 
                 <div className="flex flex-wrap gap-2 mb-6">
                   {project.tech.map((t) => (
